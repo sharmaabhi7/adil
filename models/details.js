@@ -28,7 +28,7 @@ const connection = new mongoose.Schema({
 
 
 
-const user = new mongoose.model('/', connection);
+const user = new mongoose.model('user', connection);
 module.exports = user;
 
 

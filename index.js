@@ -3,16 +3,24 @@ const app = express();
 const user = require('./models/details')
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const details = require('./models/details');
+const axios=require('axios')
+const cors = require('cors');
 
-app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(cors());
 
+app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
+  
 
 app.get('/', function(req,res){
     res.send("The page is ready to views");
@@ -20,7 +28,7 @@ app.get('/', function(req,res){
 
 app.post('/', async function(req,res){
     let {name, number, course}= req.body;
-   let user = await user.create({
+   let users = await user.create({
         name,
         number,
         course
@@ -30,5 +38,7 @@ app.post('/', async function(req,res){
     res.send("Form Submited Succefully");
 })
 
-
-app.listen(3000)
+const port=3002
+app.listen(port,(req,res)=>{
+    console.log(`server is running at port ${port}`)
+})
